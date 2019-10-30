@@ -93,17 +93,67 @@ var Shapes = (function () {
     };
     return Shapes;
 }());
-var morph;
+var Dot = (function () {
+    function Dot(startX, startY, radius, color, speedX, speedY) {
+        this.x = startX;
+        this.y = startY;
+        this.radius = radius;
+        this.color = color;
+        this.speedX = speedX;
+        this.speedY = speedY;
+    }
+    Dot.prototype.moveX = function (vector) {
+        this.x += vector * sine(this.speedX, 100, count);
+    };
+    Dot.prototype.moveY = function (vector) {
+        this.y += vector;
+    };
+    Dot.prototype.draw = function () {
+        fill(this.color);
+        ellipse(this.x, this.y, this.radius);
+    };
+    Dot.prototype.increment = function (borderRight, borderLeft) {
+        if (this.x + this.radius > borderRight) {
+            this.speedX = -1;
+        }
+        else if (this.x - this.radius < borderLeft) {
+            this.speedX = 1;
+        }
+        this.moveX(this.speedX);
+        this.moveY(this.speedY);
+    };
+    return Dot;
+}());
+var count = 0;
+var spheres = [];
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    morph = new Morph();
-    morph.setup();
+    noStroke();
 }
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 function draw() {
     background(100);
-    morph.draw();
+    makeBalls(count, 50);
+    fill("#ddd");
+    text(count, 50, 50);
+    for (var _i = 0, spheres_1 = spheres; _i < spheres_1.length; _i++) {
+        var sphere_1 = spheres_1[_i];
+        sphere_1.draw();
+        sphere_1.increment(100 + (windowWidth / 2), -100 + (windowWidth / 2));
+    }
+    count++;
 }
+var makeBalls = function (count, frequency) {
+    var centerX = windowWidth / 2;
+    if (count % frequency === 0) {
+        spheres.push(new Dot((centerX + 100), 0, 25, 'rgba(179, 111, 76, .8)', 1, 1));
+        spheres.push(new Dot((centerX - 100), 0, 25, 'rgba(76, 144, 179, .8)', 1, 1));
+    }
+};
+var sine = function (speed, width, count) {
+    var cosine = (speed * cos((1 / width) * count));
+    return cosine;
+};
 //# sourceMappingURL=build.js.map
