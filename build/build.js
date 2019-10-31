@@ -93,6 +93,18 @@ var Shapes = (function () {
     };
     return Shapes;
 }());
+var FREQUENCY = 20;
+var WIDTH = 50;
+var SPEED_Y = 2;
+var count = 0;
+var spheres = [];
+function setup() {
+    createCanvas(windowWidth, windowHeight);
+    noStroke();
+}
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+}
 var Dot = (function () {
     function Dot(startX, startY, radius, color, speedX, speedY) {
         this.x = startX;
@@ -103,7 +115,7 @@ var Dot = (function () {
         this.speedY = speedY;
     }
     Dot.prototype.moveX = function (vector) {
-        this.x += vector * sine(this.speedX, 100, count);
+        this.x += vector * Math.sign(vector) * sine(this.x, 200, this.speedX);
     };
     Dot.prototype.moveY = function (vector) {
         this.y += vector;
@@ -124,36 +136,28 @@ var Dot = (function () {
     };
     return Dot;
 }());
-var count = 0;
-var spheres = [];
-function setup() {
-    createCanvas(windowWidth, windowHeight);
-    noStroke();
-}
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-}
 function draw() {
     background(100);
-    makeBalls(count, 50);
+    makeBalls(count, FREQUENCY);
     fill("#ddd");
     text(count, 50, 50);
     for (var _i = 0, spheres_1 = spheres; _i < spheres_1.length; _i++) {
         var sphere_1 = spheres_1[_i];
         sphere_1.draw();
-        sphere_1.increment(100 + (windowWidth / 2), -100 + (windowWidth / 2));
+        sphere_1.increment((WIDTH + windowWidth / 2), (windowWidth / 2 - WIDTH));
     }
     count++;
 }
 var makeBalls = function (count, frequency) {
     var centerX = windowWidth / 2;
     if (count % frequency === 0) {
-        spheres.push(new Dot((centerX + 100), 0, 25, 'rgba(179, 111, 76, .8)', 1, 1));
-        spheres.push(new Dot((centerX - 100), 0, 25, 'rgba(76, 144, 179, .8)', 1, 1));
+        spheres.push(new Dot((centerX), 0, 10, 'rgba(179, 111, 76, .8)', -1, SPEED_Y));
+        spheres.push(new Dot((centerX), 0, 10, 'rgba(76, 144, 179, .8)', 1, SPEED_Y));
     }
 };
-var sine = function (speed, width, count) {
-    var cosine = (speed * cos((1 / width) * count));
-    return cosine;
+var sine = function (x, period, speed) {
+    var diffCenter = abs(x - windowWidth);
+    var res = diffCenter * sin((1 / diffCenter) * speed);
+    return res;
 };
 //# sourceMappingURL=build.js.map

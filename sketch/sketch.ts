@@ -1,5 +1,28 @@
+// I need to whiteboard this stupid thing.  
+// The speed should be a function of  
+// distance from center
+// current speedX
+// current position 
+
+
+const FREQUENCY = 20;
+const WIDTH = 50;
+const SPEED_Y = 2;
+let count = 0;
+let spheres: Dot[] = []
+
+
 declare interface Math {
     sign(x: number): number;
+}
+
+function setup() {
+    createCanvas(windowWidth, windowHeight)
+    noStroke()
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
 }
 
 class Dot {
@@ -19,7 +42,7 @@ class Dot {
     }
 
     moveX(vector: number) {
-        this.x += vector * sine(this.speedX, 100, count);
+        this.x += vector * Math.sign(vector) * sine(this.x, 200, this.speedX);
     }
     moveY(vector: number) {
         this.y += vector;
@@ -45,28 +68,15 @@ class Dot {
         this.moveY(this.speedY)
     }
 }
-let count = 0;
-
-
-let spheres: Dot[] = []
-
-function setup() {
-    createCanvas(windowWidth, windowHeight)
-    noStroke()
-}
-
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-}
 
 function draw() {
     background(100);
-    makeBalls(count, 50)
+    makeBalls(count, FREQUENCY)
     fill("#ddd")
     text(count, 50, 50)
     for (let sphere of spheres) {
         sphere.draw()
-        sphere.increment(100 + (windowWidth / 2), - 100 + (windowWidth / 2))
+        sphere.increment((WIDTH + windowWidth / 2), (windowWidth / 2 - WIDTH))
     }
     count++;
 }
@@ -77,19 +87,19 @@ const makeBalls = (count: number, frequency: number) => {
     if (count % frequency === 0) {
         spheres.push(
             new Dot(
-                (centerX + 100), 0, 25, 'rgba(179, 111, 76, .8)', 1, 1
+                (centerX), 0, 10, 'rgba(179, 111, 76, .8)', -1, SPEED_Y
             )
         )
         spheres.push(
             new Dot(
-                (centerX - 100), 0, 25, 'rgba(76, 144, 179, .8)', 1, 1
+                (centerX), 0, 10, 'rgba(76, 144, 179, .8)', 1, SPEED_Y
             )
         )
     }
 }
 
-const sine = (speed: number, width: number, count: number) => {
-    // returns angle from 0 to 1
-    const cosine = (speed * cos((1 / width) * count))
-    return cosine;
+const sine = (x: number, period: number, speed: number) => {
+    const diffCenter = abs(x - windowWidth)
+    const res = diffCenter * sin((1 / diffCenter) * speed);
+    return res
 } 
