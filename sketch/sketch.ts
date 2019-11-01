@@ -8,6 +8,9 @@
 const FREQUENCY = 20;
 const WIDTH = 50;
 const SPEED_Y = 2;
+const AMPLITUDE = 50;
+const PERIOD = 200
+let angle = 0;
 let count = 0;
 let spheres: Dot[] = []
 
@@ -17,6 +20,7 @@ declare interface Math {
 }
 
 function setup() {
+    frameRate(60);
     createCanvas(windowWidth, windowHeight)
     noStroke()
 }
@@ -32,6 +36,7 @@ class Dot {
     color: string;
     speedX: number;
     speedY: number;
+    angle: number
     constructor(startX: number, startY: number, radius: number, color: string, speedX: number, speedY: number) {
         this.x = startX;
         this.y = startY;
@@ -39,10 +44,15 @@ class Dot {
         this.color = color;
         this.speedX = speedX;
         this.speedY = speedY;
+        this.angle = 0;
     }
 
     moveX(vector: number) {
-        this.x += vector * Math.sign(vector) * sine(this.x, 200, this.speedX);
+
+        this.x = Math.sign(vector) > 0 ?
+            (windowWidth / 2) + (AMPLITUDE * sin(this.angle)) :
+            (windowWidth / 2) - (AMPLITUDE * sin(this.angle));
+            this.angle += .04
     }
     moveY(vector: number) {
         this.y += vector;
@@ -53,18 +63,7 @@ class Dot {
         ellipse(this.x, this.y, this.radius)
     }
     increment(borderRight: number, borderLeft: number) {
-        if (this.x + this.radius > borderRight) {
-            this.speedX = -1
-        } else if (this.x - this.radius < borderLeft) {
-            this.speedX = 1
-        }
         this.moveX(this.speedX)
-
-        // if (this.y + this.radius > windowHeight) {
-        //     this.speedY = -5
-        // } else if (this.y - this.radius < 0) {
-        //     this.speedY = 5;
-        // }
         this.moveY(this.speedY)
     }
 }
@@ -82,24 +81,23 @@ function draw() {
 }
 
 const makeBalls = (count: number, frequency: number) => {
-    const centerX = windowWidth / 2;
+    const brownStart = (windowWidth / 2) + (AMPLITUDE * sin((frameCount / PERIOD) * TWO_PI));
+    const blueStart = (windowWidth / 2) - (AMPLITUDE * sin((frameCount / PERIOD) * TWO_PI));
     // const centerY = windowHeight / 2;
     if (count % frequency === 0) {
         spheres.push(
             new Dot(
-                (centerX), 0, 10, 'rgba(179, 111, 76, .8)', -1, SPEED_Y
+                (brownStart), 0, 10, 'rgba(179, 111, 76, .8)', -1, SPEED_Y
             )
         )
         spheres.push(
             new Dot(
-                (centerX), 0, 10, 'rgba(76, 144, 179, .8)', 1, SPEED_Y
+                (blueStart), 0, 10, 'rgba(76, 144, 179, .8)', 1, SPEED_Y
             )
         )
     }
 }
 
-const sine = (x: number, period: number, speed: number) => {
-    const diffCenter = abs(x - windowWidth)
-    const res = diffCenter * sin((1 / diffCenter) * speed);
-    return res
+const sine = (x: number, PERIOD: number, speed: number) => {
+    // return sin(y) + windowWidth /
 } 

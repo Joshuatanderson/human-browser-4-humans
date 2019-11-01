@@ -96,9 +96,13 @@ var Shapes = (function () {
 var FREQUENCY = 20;
 var WIDTH = 50;
 var SPEED_Y = 2;
+var AMPLITUDE = 50;
+var PERIOD = 200;
+var angle = 0;
 var count = 0;
 var spheres = [];
 function setup() {
+    frameRate(60);
     createCanvas(windowWidth, windowHeight);
     noStroke();
 }
@@ -113,9 +117,13 @@ var Dot = (function () {
         this.color = color;
         this.speedX = speedX;
         this.speedY = speedY;
+        this.angle = 0;
     }
     Dot.prototype.moveX = function (vector) {
-        this.x += vector * Math.sign(vector) * sine(this.x, 200, this.speedX);
+        this.x = Math.sign(vector) > 0 ?
+            (windowWidth / 2) + (AMPLITUDE * sin(this.angle)) :
+            (windowWidth / 2) - (AMPLITUDE * sin(this.angle));
+        this.angle += .04;
     };
     Dot.prototype.moveY = function (vector) {
         this.y += vector;
@@ -125,12 +133,6 @@ var Dot = (function () {
         ellipse(this.x, this.y, this.radius);
     };
     Dot.prototype.increment = function (borderRight, borderLeft) {
-        if (this.x + this.radius > borderRight) {
-            this.speedX = -1;
-        }
-        else if (this.x - this.radius < borderLeft) {
-            this.speedX = 1;
-        }
         this.moveX(this.speedX);
         this.moveY(this.speedY);
     };
@@ -149,15 +151,13 @@ function draw() {
     count++;
 }
 var makeBalls = function (count, frequency) {
-    var centerX = windowWidth / 2;
+    var brownStart = (windowWidth / 2) + (AMPLITUDE * sin((frameCount / PERIOD) * TWO_PI));
+    var blueStart = (windowWidth / 2) - (AMPLITUDE * sin((frameCount / PERIOD) * TWO_PI));
     if (count % frequency === 0) {
-        spheres.push(new Dot((centerX), 0, 10, 'rgba(179, 111, 76, .8)', -1, SPEED_Y));
-        spheres.push(new Dot((centerX), 0, 10, 'rgba(76, 144, 179, .8)', 1, SPEED_Y));
+        spheres.push(new Dot((brownStart), 0, 10, 'rgba(179, 111, 76, .8)', -1, SPEED_Y));
+        spheres.push(new Dot((blueStart), 0, 10, 'rgba(76, 144, 179, .8)', 1, SPEED_Y));
     }
 };
-var sine = function (x, period, speed) {
-    var diffCenter = abs(x - windowWidth);
-    var res = diffCenter * sin((1 / diffCenter) * speed);
-    return res;
+var sine = function (x, PERIOD, speed) {
 };
 //# sourceMappingURL=build.js.map
