@@ -1,16 +1,9 @@
-// I need to whiteboard this stupid thing.  
-// The speed should be a function of  
-// distance from center
-// current speedX
-// current position 
-
-
 const FREQUENCY = 20;
 const WIDTH = 50;
 const SPEED_Y = 2;
 const AMPLITUDE = 50;
 const PERIOD = 200
-let angle = 0;
+let angularVelocity = 0;
 let count = 0;
 let spheres: Dot[] = []
 
@@ -36,7 +29,7 @@ class Dot {
     color: string;
     speedX: number;
     speedY: number;
-    angle: number
+    angularVelocity: number
     constructor(startX: number, startY: number, radius: number, color: string, speedX: number, speedY: number) {
         this.x = startX;
         this.y = startY;
@@ -44,15 +37,15 @@ class Dot {
         this.color = color;
         this.speedX = speedX;
         this.speedY = speedY;
-        this.angle = 0;
+        this.angularVelocity = 0;
     }
 
     moveX(vector: number) {
-
+        // https://www.youtube.com/watch?v=GvwPwIUSYqE
         this.x = Math.sign(vector) > 0 ?
-            (windowWidth / 2) + (AMPLITUDE * sin(this.angle)) :
-            (windowWidth / 2) - (AMPLITUDE * sin(this.angle));
-            this.angle += .04
+            (windowWidth / 2) + (AMPLITUDE * sin(this.angularVelocity)) :
+            (windowWidth / 2) - (AMPLITUDE * sin(this.angularVelocity));
+            this.angularVelocity += .04
     }
     moveY(vector: number) {
         this.y += vector;

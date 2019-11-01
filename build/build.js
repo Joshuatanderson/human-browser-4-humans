@@ -98,7 +98,7 @@ var WIDTH = 50;
 var SPEED_Y = 2;
 var AMPLITUDE = 50;
 var PERIOD = 200;
-var angle = 0;
+var angularVelocity = 0;
 var count = 0;
 var spheres = [];
 function setup() {
@@ -117,13 +117,13 @@ var Dot = (function () {
         this.color = color;
         this.speedX = speedX;
         this.speedY = speedY;
-        this.angle = 0;
+        this.angularVelocity = 0;
     }
     Dot.prototype.moveX = function (vector) {
         this.x = Math.sign(vector) > 0 ?
-            (windowWidth / 2) + (AMPLITUDE * sin(this.angle)) :
-            (windowWidth / 2) - (AMPLITUDE * sin(this.angle));
-        this.angle += .04;
+            (windowWidth / 2) + (AMPLITUDE * sin(this.angularVelocity)) :
+            (windowWidth / 2) - (AMPLITUDE * sin(this.angularVelocity));
+        this.angularVelocity += .04;
     };
     Dot.prototype.moveY = function (vector) {
         this.y += vector;
