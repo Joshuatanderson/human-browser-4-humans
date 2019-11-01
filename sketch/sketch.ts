@@ -5,9 +5,7 @@ const AMPLITUDE = 50;
 const PERIOD = 200
 let angularVelocity = 0;
 let count = 0;
-let spheres: Dot[] = []
-
-
+let spheres: Dot[] = [];
 declare interface Math {
     sign(x: number): number;
 }
