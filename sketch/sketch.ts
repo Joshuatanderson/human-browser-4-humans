@@ -3,6 +3,7 @@ const WIDTH = 50;
 const SPEED_Y = 2;
 const AMPLITUDE = 50;
 const PERIOD = 200
+const SIZE = 20;
 let angularVelocity = 0;
 let count = 0;
 let spheres: Dot[] = [];
@@ -78,12 +79,12 @@ const makeBalls = (count: number, frequency: number) => {
     if (count % frequency === 0) {
         spheres.push(
             new Dot(
-                (brownStart), 0, 10, 'rgba(179, 111, 76, .8)', -1, SPEED_Y
+                (brownStart), 0, SIZE, 'rgba(179, 111, 76, .8)', -1, SPEED_Y
             )
         )
         spheres.push(
             new Dot(
-                (blueStart), 0, 10, 'rgba(76, 144, 179, .8)', 1, SPEED_Y
+                (blueStart), 0, SIZE, 'rgba(76, 144, 179, .8)', 1, SPEED_Y
             )
         )
     }

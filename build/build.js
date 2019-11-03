@@ -98,6 +98,7 @@ var WIDTH = 50;
 var SPEED_Y = 2;
 var AMPLITUDE = 50;
 var PERIOD = 200;
+var SIZE = 20;
 var angularVelocity = 0;
 var count = 0;
 var spheres = [];
@@ -154,8 +155,8 @@ var makeBalls = function (count, frequency) {
     var brownStart = (windowWidth / 2) + (AMPLITUDE * sin((frameCount / PERIOD) * TWO_PI));
     var blueStart = (windowWidth / 2) - (AMPLITUDE * sin((frameCount / PERIOD) * TWO_PI));
     if (count % frequency === 0) {
-        spheres.push(new Dot((brownStart), 0, 10, 'rgba(179, 111, 76, .8)', -1, SPEED_Y));
-        spheres.push(new Dot((blueStart), 0, 10, 'rgba(76, 144, 179, .8)', 1, SPEED_Y));
+        spheres.push(new Dot((brownStart), 0, SIZE, 'rgba(179, 111, 76, .8)', -1, SPEED_Y));
+        spheres.push(new Dot((blueStart), 0, SIZE, 'rgba(76, 144, 179, .8)', 1, SPEED_Y));
     }
 };
 var sine = function (x, PERIOD, speed) {
