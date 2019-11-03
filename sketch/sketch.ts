@@ -4,6 +4,7 @@ const SPEED_Y = 2;
 const AMPLITUDE = 50;
 const PERIOD = 200
 const SIZE = 20;
+const START_Y = 0;
 let angularVelocity = 0;
 let count = 0;
 let spheres: Dot[] = [];
@@ -29,8 +30,8 @@ class Dot {
     speedX: number;
     speedY: number;
     angularVelocity: number
-    constructor(startX: number, startY: number, radius: number, color: string, speedX: number, speedY: number) {
-        this.x = startX;
+    constructor(startY: number, radius: number, color: string, speedX: number, speedY: number) {
+        this.x = undefined;
         this.y = startY;
         this.radius = radius;
         this.color = color;
@@ -44,7 +45,7 @@ class Dot {
         this.x = Math.sign(vector) > 0 ?
             (windowWidth / 2) + (AMPLITUDE * sin(this.angularVelocity)) :
             (windowWidth / 2) - (AMPLITUDE * sin(this.angularVelocity));
-            this.angularVelocity += .04
+        this.angularVelocity += .04
     }
     moveY(vector: number) {
         this.y += vector;
@@ -73,18 +74,16 @@ function draw() {
 }
 
 const makeBalls = (count: number, frequency: number) => {
-    const brownStart = (windowWidth / 2) + (AMPLITUDE * sin((frameCount / PERIOD) * TWO_PI));
-    const blueStart = (windowWidth / 2) - (AMPLITUDE * sin((frameCount / PERIOD) * TWO_PI));
     // const centerY = windowHeight / 2;
     if (count % frequency === 0) {
         spheres.push(
             new Dot(
-                (brownStart), 0, SIZE, 'rgba(179, 111, 76, .8)', -1, SPEED_Y
+                START_Y, SIZE, 'rgba(179, 111, 76, .8)', -1, SPEED_Y
             )
         )
         spheres.push(
             new Dot(
-                (blueStart), 0, SIZE, 'rgba(76, 144, 179, .8)', 1, SPEED_Y
+                START_Y, SIZE, 'rgba(76, 144, 179, .8)', 1, SPEED_Y
             )
         )
     }
