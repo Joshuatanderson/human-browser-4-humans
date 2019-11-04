@@ -100,6 +100,7 @@ var AMPLITUDE = 50;
 var PERIOD = 200;
 var SIZE = 20;
 var START_Y = 0;
+var SPHERE_ALPHA = 0.8;
 var angularVelocity = 0;
 var count = 0;
 var spheres = [];
@@ -154,8 +155,8 @@ function draw() {
 }
 var makeBalls = function (count, frequency) {
     if (count % frequency === 0) {
-        spheres.push(new Dot(START_Y, SIZE, 'rgba(179, 111, 76, .8)', -1, SPEED_Y));
-        spheres.push(new Dot(START_Y, SIZE, 'rgba(76, 144, 179, .8)', 1, SPEED_Y));
+        spheres.push(new Dot(START_Y, SIZE, "rgba(179, 111, 76, " + SPHERE_ALPHA + ")", -1, SPEED_Y));
+        spheres.push(new Dot(START_Y, SIZE, "rgba(76, 144, 179, " + SPHERE_ALPHA + ")", 1, SPEED_Y));
     }
 };
 var sine = function (x, PERIOD, speed) {
