@@ -13,11 +13,11 @@ let angularVelocity = 0;
 const angularVelocityIncrementer = .04
 
 // balls
-const colors: string[] = [
-    `rgba(145, 66, 255, ${SPHERE_ALPHA})`,
-    `rgba(255, 214, 66, ${SPHERE_ALPHA})`,
-    `rgba(66, 255, 167, ${SPHERE_ALPHA})`,
-    `rgba(255, 66, 110, ${SPHERE_ALPHA})`,
+const basePairColors: string[][] = [
+    [`rgba(145, 66, 255, ${SPHERE_ALPHA})`, `rgba(255, 214, 66, ${SPHERE_ALPHA})`],
+    [`rgba(255, 214, 66, ${SPHERE_ALPHA})`, `rgba(145, 66, 255, ${SPHERE_ALPHA})`],
+    [`rgba(66, 255, 167, ${SPHERE_ALPHA})`, `rgba(255, 66, 110, ${SPHERE_ALPHA})`],
+    [`rgba(255, 66, 110, ${SPHERE_ALPHA})`, `rgba(66, 255, 167, ${SPHERE_ALPHA})`],
 ]
 
 // init values
@@ -78,7 +78,7 @@ class Dot {
 
 function draw() {
     background(100);
-    makeBalls(count, FREQUENCY, colors)
+    makeBalls(count, FREQUENCY, basePairColors)
     fill("#ddd")
     text(count, 50, 50)
     for (let sphere of spheres) {
@@ -88,24 +88,25 @@ function draw() {
     count++;
 }
 
-const getColor = (colors: string[]) => {
+const getColorPair = (basePairColors: string[][]) => {
     const minInclusive = 0;
     const maxExclusive = 4;
     const randInt: number = Math.floor(Math.random() * (maxExclusive - minInclusive))
-    return colors[randInt]
+    return basePairColors[randInt]
 }
 
-const makeBalls = (count: number, frequency: number, colors: string[]) => {
+const makeBalls = (count: number, frequency: number, basePairColors: string[][]) => {
+    const colorPair: string[] = getColorPair(basePairColors)
     // const centerY = windowHeight / 2;
     if (count % frequency === 0) {
         spheres.push(
             new Dot(
-                START_Y, SIZE, getColor(colors), -1, SPEED_Y
+                START_Y, SIZE, colorPair[0], -1, SPEED_Y
             )
         )
         spheres.push(
             new Dot(
-                START_Y, SIZE, getColor(colors), 1, SPEED_Y
+                START_Y, SIZE, colorPair[1], 1, SPEED_Y
             )
         )
     }

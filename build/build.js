@@ -102,11 +102,11 @@ var START_Y = 0;
 var SPHERE_ALPHA = 0.6;
 var angularVelocity = 0;
 var angularVelocityIncrementer = .04;
-var colors = [
-    "rgba(145, 66, 255, " + SPHERE_ALPHA + ")",
-    "rgba(255, 214, 66, " + SPHERE_ALPHA + ")",
-    "rgba(66, 255, 167, " + SPHERE_ALPHA + ")",
-    "rgba(255, 66, 110, " + SPHERE_ALPHA + ")",
+var basePairColors = [
+    ["rgba(145, 66, 255, " + SPHERE_ALPHA + ")", "rgba(255, 214, 66, " + SPHERE_ALPHA + ")"],
+    ["rgba(255, 214, 66, " + SPHERE_ALPHA + ")", "rgba(145, 66, 255, " + SPHERE_ALPHA + ")"],
+    ["rgba(66, 255, 167, " + SPHERE_ALPHA + ")", "rgba(255, 66, 110, " + SPHERE_ALPHA + ")"],
+    ["rgba(255, 66, 110, " + SPHERE_ALPHA + ")", "rgba(66, 255, 167, " + SPHERE_ALPHA + ")"],
 ];
 var count = 0;
 var spheres = [];
@@ -149,7 +149,7 @@ var Dot = (function () {
 }());
 function draw() {
     background(100);
-    makeBalls(count, FREQUENCY, colors);
+    makeBalls(count, FREQUENCY, basePairColors);
     fill("#ddd");
     text(count, 50, 50);
     for (var _i = 0, spheres_1 = spheres; _i < spheres_1.length; _i++) {
@@ -159,16 +159,17 @@ function draw() {
     }
     count++;
 }
-var getColor = function (colors) {
+var getColorPair = function (basePairColors) {
     var minInclusive = 0;
     var maxExclusive = 4;
     var randInt = Math.floor(Math.random() * (maxExclusive - minInclusive));
-    return colors[randInt];
+    return basePairColors[randInt];
 };
-var makeBalls = function (count, frequency, colors) {
+var makeBalls = function (count, frequency, basePairColors) {
+    var colorPair = getColorPair(basePairColors);
     if (count % frequency === 0) {
-        spheres.push(new Dot(START_Y, SIZE, getColor(colors), -1, SPEED_Y));
-        spheres.push(new Dot(START_Y, SIZE, getColor(colors), 1, SPEED_Y));
+        spheres.push(new Dot(START_Y, SIZE, colorPair[0], -1, SPEED_Y));
+        spheres.push(new Dot(START_Y, SIZE, colorPair[1], 1, SPEED_Y));
     }
 };
 var sine = function (x, PERIOD, speed) {
