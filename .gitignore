@@ -4,3 +4,5 @@ build/
 **/*.js
 **/*.js.map
 !build/build.js
+
+/data

@@ -1,3 +1,5 @@
+const data = 
+
 // helix values
 const WIDTH = 2;
 const AMPLITUDE = 40;
