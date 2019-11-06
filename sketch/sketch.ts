@@ -80,7 +80,11 @@ function draw() {
     background(100);
     makeBalls(count, FREQUENCY, basePairColors)
     fill("#ddd")
+    // frame count
     text(count, 50, 50)
+    // characters remaining
+    
+    text(getDisplayText(), 50, 100)
     for (let sphere of spheres) {
         sphere.draw()
         sphere.increment((WIDTH + windowWidth / 2), (windowWidth / 2 - WIDTH))
@@ -88,14 +92,21 @@ function draw() {
     count++;
 }
 
-const getColorPair = (basePairColors: string[][]) => {
+const getDisplayText = (): string => {
+    const len = 3200000000;
+    const pairsDisplayed = (count/FREQUENCY);
+    const remainder = Math.floor((pairsDisplayed)) * 2
+    return `letters displayed: ${remainder} / ${len}`
+}
+
+const getColorPair = (basePairColors: string[][]): string[] => {
     const minInclusive = 0;
     const maxExclusive = 4;
     const randInt: number = Math.floor(Math.random() * (maxExclusive - minInclusive))
     return basePairColors[randInt]
 }
 
-const makeBalls = (count: number, frequency: number, basePairColors: string[][]) => {
+const makeBalls = (count: number, frequency: number, basePairColors: string[][]): void => {
     const colorPair: string[] = getColorPair(basePairColors)
     // const centerY = windowHeight / 2;
     if (count % frequency === 0) {

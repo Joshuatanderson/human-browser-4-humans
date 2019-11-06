@@ -152,6 +152,7 @@ function draw() {
     makeBalls(count, FREQUENCY, basePairColors);
     fill("#ddd");
     text(count, 50, 50);
+    text(getDisplayText(), 50, 100);
     for (var _i = 0, spheres_1 = spheres; _i < spheres_1.length; _i++) {
         var sphere_1 = spheres_1[_i];
         sphere_1.draw();
@@ -159,6 +160,12 @@ function draw() {
     }
     count++;
 }
+var getDisplayText = function () {
+    var len = 3200000000;
+    var pairsDisplayed = (count / FREQUENCY);
+    var remainder = Math.floor((pairsDisplayed)) * 2;
+    return "letters displayed: " + remainder + " / " + len;
+};
 var getColorPair = function (basePairColors) {
     var minInclusive = 0;
     var maxExclusive = 4;
